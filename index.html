@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>切割轮播图</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .view {
+            width: 560px;
+            height: 300px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            position: relative;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            height: 100%;
+            width: 100%;
+
+        }
+
+        ul li {
+            width: 112px;
+            height: 300px;
+            float: left;
+            position: relative;
+            /*3d呈现*/
+            transform-style: preserve-3d;
+            /*perspective: 500px;*/
+            /*opacity: 0.5;*/
+            /*加过渡*/
+            transition: all 1s;
+        }
+
+        ul li span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        ul li span:nth-child(1) {
+            background: url("images/1.jpg");
+            transform: translateZ(150px);
+        }
+
+        ul li span:nth-child(2) {
+            background: url("images/2.jpg");
+            transform: rotateX(90deg) translateZ(150px);
+        }
+
+        ul li span:nth-child(3) {
+            background: url("images/3.jpg");
+            transform: rotateX(180deg) translateZ(150px);
+        }
+
+        ul li span:nth-child(4) {
+            background: url("images/4.jpg");
+            transform: rotateX(-90deg) translateZ(150px);
+        }
+
+        ul li:nth-child(2) span {
+            background-position: -112px 0;
+        }
+
+        ul li:nth-child(3) span {
+            background-position: -224px 0;
+        }
+
+        ul li:nth-child(4) span {
+            background-position: -336px 0;
+        }
+
+        ul li:nth-child(5) span {
+            background-position: -448px 0;
+        }
+
+        /*按钮*/
+        .prev, .next {
+            display: block;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            margin-top: -30px;
+            font-size: 40px;
+            color: #FFF;
+            text-decoration: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 50%;
+        }
+        .next {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="view">
+    <ul>
+        <li><span></span><span></span><span></span><span></span></li>
+        <li><span></span><span></span><span></span><span></span></li>
+        <li><span></span><span></span><span></span><span></span></li>
+        <li><span></span><span></span><span></span><span></span></li>
+        <li><span></span><span></span><span></span><span></span></li>
+    </ul>
+    <a href="javascript:;" class="prev">&lt;</a>
+    <a href="javascript:;" class="next">&gt;</a>
+</div>
+<script src="js/jquery.min.js"></script>
+<script>
+    $(function () {
+        var index = 0;
+        var flag=true;
+        $('.prev').on('click',function () {
+//            检测节流阀开关，如果关着，打开
+            if(!flag){
+                return false;
+            }
+            //只要进来了就关掉
+            flag=false;
+            index--;
+            $('ul li').css({'transform': 'rotateX(' + (-index * 90) + 'deg)'}).each(function (i, item) {
+                $(item).css({'transition-delay': i * 0.25 + 's'});
+            });
+        });
+        $('.next').on('click',function () {
+            if(!flag){
+                return false;
+            }
+            //只要进来了就关掉
+            flag=false;
+            index++;
+            $('ul li').css({'transform': 'rotateX(' + (-index * 90) + 'deg)'}).each(function (i, item) {
+                $(item).css({'transition-delay': i * 0.25 + 's'});
+            });
+        });
+
+        var liLast=document.querySelector('.view ul li:last-child');
+        liLast.addEventListener('transitionend', function () {
+            flag=true;
+        });
+
+
+    });
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<script>-->
+    <!--$(function () {-->
+        <!--var index = 0;-->
+        <!--var flag=true;-->
+        <!--$('.prev').on('click',function () {-->
+            <!--if(flag){-->
+                <!--flag=false;-->
+                <!--index&#45;&#45;;-->
+                <!--$('ul li').css({'transform': 'rotateX(' + (-index * 90) + 'deg)'}).each(function (i, item) {-->
+                    <!--$(item).css({'transition-delay': i * 0.25 + 's'});-->
+                <!--});-->
+
+            <!--}-->
+        <!--});-->
+        <!--$('.next').on('click',function () {-->
+            <!--if(flag){-->
+                <!--flag=false;-->
+                <!--index++;-->
+                <!--$('ul li').css({'transform': 'rotateX(' + (-index * 90) + 'deg)'}).each(function (i, item) {-->
+                    <!--$(item).css({'transition-delay': i * 0.25 + 's'});-->
+                <!--});-->
+            <!--}-->
+        <!--});-->
+        <!--var x=document.querySelector('li:nth-last-Child(1)');-->
+        <!--x.addEventListener("transitionend", function () {-->
+            <!--flag=true;-->
+        <!--});-->
+
+    <!--});-->
+
+
+
+<!--</script>-->
+</body>
+</html>
